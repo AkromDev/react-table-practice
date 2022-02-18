@@ -51,20 +51,24 @@ const IndeterminateCheckbox = React.forwardRef(
 );
 
 // Define a default UI for filtering
-function DefaultColumnFilter({
-  column: { filterValue, preFilteredRows, setFilter }
-}) {
-  const count = preFilteredRows.length;
+// function DefaultColumnFilter({
+//   column: { filterValue, preFilteredRows, setFilter }
+// }) {
+//   const count = preFilteredRows.length;
 
-  return (
-    <input
-      value={filterValue || ""}
-      onChange={(e) => {
-        setFilter(e.target.value || undefined); // Set undefined to remove the filter entirely
-      }}
-      placeholder={`Search ${count} records...`}
-    />
-  );
+//   return (
+//     <input
+//       value={filterValue || ""}
+//       onChange={(e) => {
+//         setFilter(e.target.value || undefined); // Set undefined to remove the filter entirely
+//       }}
+//       placeholder={`Search ${count} records...`}
+//     />
+//   );
+// }
+
+function DefaultColumnFilter() {
+  return null;
 }
 
 function Table({ columns, data }) {
@@ -147,7 +151,6 @@ function Table({ columns, data }) {
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => {
-                console.log({ column });
                 return (
                   <th {...column.getHeaderProps()}>
                     {column.render("Header")}
@@ -240,8 +243,18 @@ function App() {
         filter: "includes"
       },
       {
-        Header: "Profile Progress",
-        accessor: "progress"
+        Header: "Actions",
+        accessor: "progress",
+        Cell: ({ cell }) => (
+          <button
+            value={cell.row.values.name}
+            onClick={(e) => {
+              console.log("cell data", cell.row);
+            }}
+          >
+            Edit
+          </button>
+        )
       }
     ],
     []
